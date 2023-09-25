@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/home/gradle/app
+      - ./var/rinha:/var/rinha
