@@ -1,5 +1,7 @@
 package dev.samukklein.rinhacompiladores.dto;
 
+import javax.management.RuntimeErrorException;
+
 public enum KindEnum {
     VAR,
     LET,
@@ -15,7 +17,8 @@ public enum KindEnum {
             if (expressionDTO.getKind() != null) {
                 return KindEnum.valueOf(expressionDTO.getKind().toUpperCase());
             }
+            throw new RuntimeErrorException(null, "Invalide Kind " + expressionDTO.getKind());
         }
-        return null;
+        throw new RuntimeErrorException(null, "Invalide expressionDTO = " + expressionDTO);
     }
 }

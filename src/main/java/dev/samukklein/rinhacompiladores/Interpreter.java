@@ -4,6 +4,8 @@ import dev.samukklein.rinhacompiladores.dto.Term;
 import dev.samukklein.rinhacompiladores.dto.InterpreterData;
 import dev.samukklein.rinhacompiladores.dto.KindEnum;
 import dev.samukklein.rinhacompiladores.gson.JsonConvert;
+import dev.samukklein.rinhacompiladores.tasks.Int;
+import dev.samukklein.rinhacompiladores.tasks.Let;
 import dev.samukklein.rinhacompiladores.tasks.Print;
 import dev.samukklein.rinhacompiladores.tasks.Str;
 import dev.samukklein.rinhacompiladores.tasks.TaskExec;
@@ -26,6 +28,11 @@ public class Interpreter {
     }
 
     public String processExpression(Term expression) {
+        
+        if (expression == null) {
+            return null;
+        }
+
         TaskExec taskExec = null;
         switch (KindEnum.getEnum(expression)) {
             case PRINT:
@@ -34,8 +41,19 @@ public class Interpreter {
             case STR:
                 taskExec = new Str(this, expression);
                 break;
+            case LET:
+                taskExec = new Let(this, expression);
+                break;
+            case INT:
+                taskExec = new Int(this, expression);
+                break;
             default:
                 throw new RuntimeException("Unknown kind: " + expression.getKind());
+        }
+        
+        if (expression.getNext() != null) {
+            System.out.println("here >> " + expression.getNext());
+            return processExpression(expression.getNext());
         }
 
         return taskExec.exec();

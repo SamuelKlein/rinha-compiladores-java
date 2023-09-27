@@ -13,7 +13,7 @@ public class Let implements TaskExec {
     }
 
     public String exec() {
-        System.out.println(value);
+        // System.out.println(value);
         return value;
     }
 
